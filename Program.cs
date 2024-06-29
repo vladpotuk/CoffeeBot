@@ -1,7 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Exceptions;
+using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -19,9 +18,9 @@ namespace CoffeeBot
 
             var cts = new System.Threading.CancellationTokenSource();
             var cancellationToken = cts.Token;
-            var receiverOptions = new Telegram.Bot.Extensions.Polling.ReceiverOptions
+            var receiverOptions = new ReceiverOptions
             {
-                AllowedUpdates = Array.Empty<UpdateType>() // receive all update types
+                AllowedUpdates = Array.Empty<UpdateType>() 
             };
 
             Bot.StartReceiving(
@@ -32,7 +31,7 @@ namespace CoffeeBot
             );
 
             Console.WriteLine($"Start listening for @{me.Username}");
-            await Task.Delay(-1, cancellationToken); // Use Task.Delay to keep the application running asynchronously until cancelled
+            await Task.Delay(-1, cancellationToken); 
             cts.Cancel();
         }
 
@@ -129,9 +128,9 @@ namespace CoffeeBot
                         text: "Дякую за ваше замовлення!"
                     );
                     break;
-                // Handle syrup options callback here if needed
+               
                 default:
-                    // Handle coffee selection
+                    
                     await botClient.SendTextMessageAsync(
                         chatId: callbackQuery.Message.Chat.Id,
                         text: $"Ви обрали: {callbackQuery.Data}"
@@ -191,7 +190,7 @@ namespace CoffeeBot
                     InlineKeyboardButton.WithCallbackData("Шоколадний", "Шоколадний"),
                     InlineKeyboardButton.WithCallbackData("Фруктовий", "Фруктовий")
                 }
-                // Add more syrup options as needed
+                
             });
         }
     }
